@@ -1,7 +1,7 @@
 #include <time.h>
 #include <stdint.h>
 #include <bcm2835.h>
-
+#include <string.h>
 // Access from ARM Running Linux
 
 #define BCM2708_PERI_BASE        0x20000000
@@ -96,11 +96,14 @@ void clr_pin(int pin) {
 }
 
 
+
+
 int main(int argv, char** argc)
 {
     // this is called after the contructor!
 	
-	char plug []={1,0, 1, 0, 0, 1, 0, 1, 1, 1,0};
+	char plug []={'1','0', '0', '0', '0', '1', '0', '0', '0', '0','1','0'};
+	
 	
  
     // you must run this as root!!!
@@ -109,20 +112,30 @@ int main(int argv, char** argc)
     OUT_GPIO(17);
     
     int i;
-    for(i=0;i<5;i++){
+    for(i=0;i<20;i++){
 		
 		transmit(plug);
 	}
     return 0;
 }
-
+/**
+ * Method accepts a string containing a sequence of ones and zeroes.
+ * The whole sequence will be transmitted via radio according to the
+ * signal encoding of mumbi FS3000 wireless switch unit. Make sure
+ * the string contains a house code 5 bits a switch code 5 bits, an ON/OFF
+ * bit and inverted ON/FF bit for synchronization.
+ */
 void transmit(char plug []){
 	set_pin(17); //init power
 	mnanosleep(370000);
-	int i;
-	for(i=0;i<11;i++){
+	size_t sequence_lenght=strlen(plug);
+	if(sequence_lenght!=12){
 		
-		if(plug[i]==1){
+	}
+	int i;
+	for(i=0;i<12;i++){
+		
+		if(plug[i]=='1'){
 			printf("bit %d \n",plug[i]);
 			clr_pin(17);
 			mnanosleep(1110000); //3*370000
@@ -134,7 +147,7 @@ void transmit(char plug []){
 			mnanosleep(370000);
 			
 								
-		}else if(plug[i]==0){
+		}else if(plug[i]=='0'){
 			printf("bit %d \n",plug[i]);
 			clr_pin(17);
 			mnanosleep(1110000); //3*370000
@@ -150,7 +163,7 @@ void transmit(char plug []){
 	}
 	printf("long sleep \n");
 	clr_pin(17);
-	mnanosleep(14800000);//47360000 ns-(8*11*370000)ns
+	mnanosleep(47360000-(8*12*370000+370000));
 }
 
 void mnanosleep(int nanoseconds){
@@ -158,4 +171,4 @@ void mnanosleep(int nanoseconds){
 	struct timespec req={0},rem={0};
 	req.tv_nsec=nanoseconds;
 	nanosleep(&req,&rem);
-	}
+}
