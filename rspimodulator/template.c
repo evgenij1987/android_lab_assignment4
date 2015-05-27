@@ -7,12 +7,13 @@
 #define BCM2708_PERI_BASE        0x20000000
 #define GPIO_BASE                (BCM2708_PERI_BASE + 0x200000) /* GPIO controller */
 
-
 #include <stdio.h>
+#include <stdarg.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <unistd.h>
+#include "template.h"
 
 #define PAGE_SIZE (4*1024)
 #define BLOCK_SIZE (4*1024)
@@ -31,8 +32,7 @@ volatile unsigned *gpio;
 
 #define GPIO_SET *(gpio+7)  // sets   bits which are 1 ignores bits which are 0
 #define GPIO_CLR *(gpio+10) // clears bits which are 1 ignores bits which are 0
-void transmit(char plug []);
-void mnanosleep(int nanoseconds);
+
 void setup_io();
 
 //
@@ -82,12 +82,6 @@ void con() {
 void set_pin(int pin) {
 	GPIO_SET = 1<<pin;
 
-
-
-
-
-
-
 }
 
 /* use this to set no power to a pin */
@@ -96,13 +90,11 @@ void clr_pin(int pin) {
 }
 
 
-
-
 int main(int argv, char** argc)
 {
     // this is called after the contructor!
 	
-	char plug []={'1','0', '0', '0', '0', '1', '0', '0', '0', '0','1','0'};
+	char plug []={'1','0', '0', '0', '0', '1', '0', '0', '0', '0','1','0','\n'};
 	
 	
  
@@ -126,17 +118,20 @@ int main(int argv, char** argc)
  * bit and inverted ON/FF bit for synchronization.
  */
 void transmit(char plug []){
+	size_t sequence_lenght=strlen(plug)-1;
+	if(sequence_lenght!=12){
+		dieGracefully("Sequence for modulation too long %d",sequence_lenght);		
+	}
+	
 	set_pin(17); //init power
 	mnanosleep(370000);
-	size_t sequence_lenght=strlen(plug);
-	if(sequence_lenght!=12){
-		
-	}
+	
+	
 	int i;
-	for(i=0;i<12;i++){
+	for(i=0;i<sequence_lenght;i++){
 		
 		if(plug[i]=='1'){
-			printf("bit %d \n",plug[i]);
+			printf("bit %c \n",plug[i]);
 			clr_pin(17);
 			mnanosleep(1110000); //3*370000
 			set_pin(17);
@@ -148,7 +143,7 @@ void transmit(char plug []){
 			
 								
 		}else if(plug[i]=='0'){
-			printf("bit %d \n",plug[i]);
+			printf("bit %c \n",plug[i]);
 			clr_pin(17);
 			mnanosleep(1110000); //3*370000
 			set_pin(17);
@@ -171,4 +166,13 @@ void mnanosleep(int nanoseconds){
 	struct timespec req={0},rem={0};
 	req.tv_nsec=nanoseconds;
 	nanosleep(&req,&rem);
+}
+
+
+void dieGracefully(const char *format, ...) {
+	va_list arg;
+	va_start(arg, format);
+	vfprintf(stderr, format, arg);
+	va_end(arg);
+	exit(1);
 }
