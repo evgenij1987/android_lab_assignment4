@@ -4,6 +4,7 @@
 #include <string.h>
 // Access from ARM Running Linux
 
+
 #define BCM2708_PERI_BASE        0x20000000
 #define GPIO_BASE                (BCM2708_PERI_BASE + 0x200000) /* GPIO controller */
 
@@ -92,23 +93,28 @@ void clr_pin(int pin) {
 
 int main(int argv, char** argc)
 {
+	
+		 // you must run this as root!!!
+	
+	//
     // this is called after the contructor!
-	
-	char plug []={'1','0', '0', '0', '0', '1', '0', '0', '0', '0','1','0','\n'};
-	
-	
- 
-    // you must run this as root!!!
+	if(argv==2){
+		send(argc[1]);	
+	}
+				 
+   return 0;
+}
 
-    INP_GPIO(17); // must use INP_GPIO before we can use OUT_GPIO
+void send(char sequence[] ){
+	INP_GPIO(17); // must use INP_GPIO before we can use OUT_GPIO
     OUT_GPIO(17);
     
     int i;
-    for(i=0;i<20;i++){
+    for(i=0;i<RETRANSMISSIONS;i++){
 		
-		transmit(plug);
+		transmit(sequence);
 	}
-    return 0;
+    
 }
 /**
  * Method accepts a string containing a sequence of ones and zeroes.
@@ -117,48 +123,49 @@ int main(int argv, char** argc)
  * the string contains a house code 5 bits a switch code 5 bits, an ON/OFF
  * bit and inverted ON/FF bit for synchronization.
  */
-void transmit(char plug []){
-	size_t sequence_lenght=strlen(plug)-1;
+void transmit(char sequence []){
+	size_t sequence_lenght=strlen(sequence);
 	if(sequence_lenght!=12){
-		dieGracefully("Sequence for modulation too long %d",sequence_lenght);		
+		dieGracefully("Wrong sequence for modulation: lenght %d but should be ",sequence_lenght);		
 	}
 	
 	set_pin(17); //init power
-	mnanosleep(370000);
+	mnanosleep(PULSE_WIDTH);
 	
 	
 	int i;
 	for(i=0;i<sequence_lenght;i++){
 		
-		if(plug[i]=='1'){
-			printf("bit %c \n",plug[i]);
+		if(sequence[i]=='1'){
+			printf("bit %c \n",sequence[i]);
 			clr_pin(17);
-			mnanosleep(1110000); //3*370000
+			mnanosleep(3*PULSE_WIDTH); 
 			set_pin(17);
-			mnanosleep(370000);
+			mnanosleep(PULSE_WIDTH);
 			clr_pin(17);
-			mnanosleep(1110000);
+			mnanosleep(3*PULSE_WIDTH);
 			set_pin(17);
-			mnanosleep(370000);
+			mnanosleep(PULSE_WIDTH);
 			
 								
-		}else if(plug[i]=='0'){
-			printf("bit %c \n",plug[i]);
+		}else if(sequence[i]=='0'){
+			printf("bit %c \n",sequence[i]);
 			clr_pin(17);
-			mnanosleep(1110000); //3*370000
+			mnanosleep(3*PULSE_WIDTH); 
 			set_pin(17);
-			mnanosleep(1110000);
+			mnanosleep(3*PULSE_WIDTH);
 			clr_pin(17);
-			mnanosleep(370000);
+			mnanosleep(PULSE_WIDTH);
 			set_pin(17);
-			mnanosleep(370000);								
+			mnanosleep(PULSE_WIDTH);								
 		}
 
 		
 	}
 	printf("long sleep \n");
 	clr_pin(17);
-	mnanosleep(47360000-(8*12*370000+370000));
+	//LONG LOW SECTION OF SIGNAL
+	mnanosleep(SIGNAL_LENGTH-(SINGLE_BIT_SIGNAL_LENGTH*sequence_lenght*PULSE_WIDTH+PULSE_WIDTH));
 }
 
 void mnanosleep(int nanoseconds){
