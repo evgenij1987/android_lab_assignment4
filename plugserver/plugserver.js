@@ -18,8 +18,8 @@ function turnOnLamp(){
 
     var exec = require('child_process').exec;
 
-
-    exec("ls -ali", function (error, stdout, stderr) {
+	//start binary modulation module, turn on plug
+    exec("sudo ./../rspimodulator/rspimodulator 100001000010", function (error, stdout, stderr) {
 
         console.log('stdout: ' + stdout);
 
