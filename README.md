@@ -1,5 +1,6 @@
 # android_lab_assignment4
 
-Install node.js on raspberry pi with:
+Install ARM version of Node.js on raspberry pi with:
 
-sudo apt-get install node
+wget http://node-arm.herokuapp.com/node_latest_armhf.deb 
+sudo dpkg -i node_latest_armhf.deb
