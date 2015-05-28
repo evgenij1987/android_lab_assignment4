@@ -4,6 +4,7 @@
 #include <string.h>
 // Access from ARM Running Linux
 
+
 #define BCM2708_PERI_BASE        0x20000000
 #define GPIO_BASE                (BCM2708_PERI_BASE + 0x200000) /* GPIO controller */
 
@@ -94,7 +95,7 @@ int main(int argv, char** argc)
 {
     // this is called after the contructor!
 	
-	char plug []={'1','0', '0', '0', '0', '1', '0', '0', '0', '0','1','0','\n'};
+	char plug []={'1','0', '0', '0', '0', '1', '0', '0', '0', '0','0','1','\n'};
 	
 	
  
