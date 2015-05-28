@@ -7,7 +7,7 @@ var PORT=3000;
 app.get('/api', function(request, response) {
     //response.send({name:"Evgenij Avstein",age:27});
 
-    runShellCommand();
+    turnOnLamp();
     response.sendStatus(200);
 });
 app.listen(PORT);
