@@ -4,32 +4,13 @@
 var express = require('express');
 var app = express();
 var PORT=3000;
-app.get('/api', function(request, response) {
-    //response.send({name:"Evgenij Avstein",age:27});
+plugController=require('./plugs.controller');
 
-    runShellCommand();
-    response.sendStatus(200);
-});
+plugController.init();//reading all available plugs from config.yaml
+
+app.get('/api/plugs',plugController.sendPlugList);
+app.get('/api/plugs/turnON/:id', plugController.turnOnPlug);
+app.get('/api/plugs/turnOFF/:id', plugController.turnOffPlug);
 app.listen(PORT);
 console.log("plugserver running on: "+PORT);
 
-function turnOnLamp(){
-
-
-    var exec = require('child_process').exec;
-
-
-    exec("ls -ali", function (error, stdout, stderr) {
-
-        console.log('stdout: ' + stdout);
-
-        console.log('stderr: ' + stderr);
-
-        if (error !== null) {
-
-            console.log('exec error: ' + error);
-
-        }
-
-    });
-}
