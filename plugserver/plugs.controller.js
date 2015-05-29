@@ -22,6 +22,9 @@ exports.init=function(){
         configPlugsList[i].state="OFF";//initially all plugs are marked as OFF
     }
     runRadioTransmitter();
+    radioTransmitterChildProcess.stdin.on('data', function(data) {
+        console.log('Received data:', data);
+    });
 }
 /**
  * Send the list of plugs to client: each item contains only
