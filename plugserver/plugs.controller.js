@@ -3,7 +3,6 @@
  */
 
 var configPlugsList;
-var radioTransmitterChildProcess;
 var PLUG_ON="ON";
 var PLUG_OFF="OFF";
 var ACTION_ON="10";
@@ -21,10 +20,7 @@ exports.init=function(){
     for(i=0;i<configPlugsList.length;i++){
         configPlugsList[i].state="OFF";//initially all plugs are marked as OFF
     }
-    runRadioTransmitter();
-    radioTransmitterChildProcess.stdin.on('data', function(data) {
-        console.log('Received data:', data);
-    });
+
 }
 /**
  * Send the list of plugs to client: each item contains only
@@ -55,10 +51,8 @@ exports.turnOnPlug=function(req, res){
 
     var plug=updateConfigPlugsList(turnOnID,PLUG_ON);
     if(plug){
-
-        radioTransmitterChildProcess.stdout.write(plug.house_code+plug.switch_code+ACTION_ON);
         //run binary rspimodulator to turn on the plug via shell
-        //runRadioTransmitter(plug.house_code, plug.switch_code, ACTION_ON);
+        runRadioTransmitter(plug.house_code, plug.switch_code, ACTION_ON);
         res.sendStatus(200);
     }else{
         res.sendStatus(500);
@@ -72,9 +66,7 @@ exports.turnOffPlug=function(req, res){
     var plug=updateConfigPlugsList(turnOffId,PLUG_OFF);
 
     if(plug){
-
-        radioTransmitterChildProcess.stdout.write(plug.house_code+plug.switch_code+ACTION_OFF);
-        //runRadioTransmitter(plug.house_code, plug.switch_code, ACTION_OFF)
+        runRadioTransmitter(plug.house_code, plug.switch_code, ACTION_OFF)
     }else{
         res.sendStatus(500);
     }
@@ -93,10 +85,9 @@ function runRadioTransmitter(house_code, switch_code, action){
 
     var exec = require('child_process').exec;
 
-    var command="sudo ./../rspimodulator/rspimodulator ";//+house_code+switch_code+action;
-   // var command="echo ./../rspimodulator/rspimodulator ";//+house_code+switch_code+action;
-
-    radioTransmitterChildProcess=exec(command, function (error, stdout, stderr) {
+    //var command="sudo ./../rspimodulator/rspimodulator "+house_code+switch_code+action;
+    var command="echo ./../rspimodulator/rspimodulator "+house_code+switch_code+action;
+    exec(command, function (error, stdout, stderr) {
 
         console.log('stdout: ' + stdout);
 

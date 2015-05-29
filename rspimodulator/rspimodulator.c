@@ -94,20 +94,11 @@ void clr_pin(int pin) {
 int main(int argv, char** argc)
 {
 	
-	 // you must run this as root!!!
-	if(argv==1){
-		 char line[BUFFER_SIZE];
-  		 while(1)
-  		 {
-			fgets(line, BUFFER_SIZE, stdin);
-			if(strlen(line)==12)
-	  			send(line);
-			
-			
-	   			
-  		 }
-	}
-	else if(argv==2){
+		 // you must run this as root!!!
+	
+	//
+    // this is called after the contructor!
+	if(argv==2){
 		send(argc[1]);	
 	}
 				 
@@ -135,8 +126,7 @@ void send(char sequence[] ){
 void transmit(char sequence []){
 	size_t sequence_lenght=strlen(sequence);
 	if(sequence_lenght!=12){
-		printf("Wrong sequence for modulation: lenght %d but should be 12 ",sequence_lenght);
-		return;		
+		dieGracefully("Wrong sequence for modulation: lenght %d but should be ",sequence_lenght);		
 	}
 	
 	set_pin(17); //init power
