@@ -20,7 +20,7 @@ exports.init=function(){
     for(i=0;i<configPlugsList.length;i++){
         configPlugsList[i].state="OFF";//initially all plugs are marked as OFF
     }
-
+    runRadioTransmitter();
 }
 /**
  * Send the list of plugs to client: each item contains only
@@ -51,8 +51,10 @@ exports.turnOnPlug=function(req, res){
 
     var plug=updateConfigPlugsList(turnOnID,PLUG_ON);
     if(plug){
+        
+        process.stdout.write(plug.house_code+plug.switch_code+ACTION_ON);
         //run binary rspimodulator to turn on the plug via shell
-        runRadioTransmitter(plug.house_code, plug.switch_code, ACTION_ON);
+        //runRadioTransmitter(plug.house_code, plug.switch_code, ACTION_ON);
         res.sendStatus(200);
     }else{
         res.sendStatus(500);
@@ -66,7 +68,9 @@ exports.turnOffPlug=function(req, res){
     var plug=updateConfigPlugsList(turnOffId,PLUG_OFF);
 
     if(plug){
-        runRadioTransmitter(plug.house_code, plug.switch_code, ACTION_OFF)
+
+        process.stdout.write(plug.house_code+plug.switch_code+ACTION_OFF);
+        //runRadioTransmitter(plug.house_code, plug.switch_code, ACTION_OFF)
     }else{
         res.sendStatus(500);
     }
@@ -85,8 +89,9 @@ function runRadioTransmitter(house_code, switch_code, action){
 
     var exec = require('child_process').exec;
 
-    //var command="sudo ./../rspimodulator/rspimodulator "+house_code+switch_code+action;
-    var command="echo ./../rspimodulator/rspimodulator "+house_code+switch_code+action;
+    //var command="sudo ./../rspimodulator/rspimodulator ";//+house_code+switch_code+action;
+    var command="echo ./../rspimodulator/rspimodulator ";//+house_code+switch_code+action;
+
     exec(command, function (error, stdout, stderr) {
 
         console.log('stdout: ' + stdout);
