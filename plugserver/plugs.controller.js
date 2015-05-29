@@ -85,7 +85,7 @@ function runRadioTransmitter(house_code, switch_code, action){
 
     var exec = require('child_process').exec;
 
-    //var commmand="sudo ./../rspimodulator/rspimodulator "+house_code+switch_code+action;
+    //var command="sudo ./../rspimodulator/rspimodulator "+house_code+switch_code+action;
     var command="echo ./../rspimodulator/rspimodulator "+house_code+switch_code+action;
     exec(command, function (error, stdout, stderr) {
 
