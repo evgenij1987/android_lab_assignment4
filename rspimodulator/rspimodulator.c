@@ -106,7 +106,7 @@ int main(int argv, char** argc)
 	        if (bytes < BUFFER_SIZE)
 	            if (feof(stdin))
 	                dieGracefully("stream too short");
-
+		buffer[BUFFER_SIZE]='\0';
 	        send(buffer);
 	        
 	    }
