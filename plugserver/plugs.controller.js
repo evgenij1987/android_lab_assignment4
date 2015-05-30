@@ -3,6 +3,7 @@
  */
 
 var configPlugsList;
+var child;
 var PLUG_ON="ON";
 var PLUG_OFF="OFF";
 var ACTION_ON="10";
@@ -20,8 +21,10 @@ exports.init=function(){
     for(i=0;i<configPlugsList.length;i++){
         configPlugsList[i].state="OFF";//initially all plugs are marked as OFF
     }
-
-}
+    runRadioTransmitter();
+    child.stdout.on('data', function (buffer) {
+        console.log(buffer.toString("utf-8")) });
+    }
 /**
  * Send the list of plugs to client: each item contains only
  * id, name. Clients just refer the id to turn a plug on/off.
@@ -52,7 +55,8 @@ exports.turnOnPlug=function(req, res){
     var plug=updateConfigPlugsList(turnOnID,PLUG_ON);
     if(plug){
         //run binary rspimodulator to turn on the plug via shell
-        runRadioTransmitter(plug.house_code, plug.switch_code, ACTION_ON);
+        //runRadioTransmitter(plug.house_code, plug.switch_code, ACTION_ON);
+        child.stdin.write(plug.house_code+plug.switch_code+ACTION_ON);
         res.sendStatus(200);
     }else{
         res.sendStatus(500);
@@ -66,7 +70,8 @@ exports.turnOffPlug=function(req, res){
     var plug=updateConfigPlugsList(turnOffId,PLUG_OFF);
 
     if(plug){
-        runRadioTransmitter(plug.house_code, plug.switch_code, ACTION_OFF)
+        child.stdin.write(plug.house_code+plug.switch_code+ACTION_OFF);
+        //runRadioTransmitter(plug.house_code, plug.switch_code, ACTION_OFF)
     }else{
         res.sendStatus(500);
     }
@@ -83,11 +88,13 @@ exports.turnOffPlug=function(req, res){
 function runRadioTransmitter(house_code, switch_code, action){
 
 
-    var exec = require('child_process').exec;
+    var exec = require('child_process').spawn;
 
     //var command="sudo ./../rspimodulator/rspimodulator "+house_code+switch_code+action;
-    var command="echo ./../rspimodulator/rspimodulator "+house_code+switch_code+action;
-    exec(command, function (error, stdout, stderr) {
+    //var command="echo ./../rspimodulator/rspimodulator "+house_code+switch_code+action;
+    //var command="cat";
+    var command="sudo ./../rspimodulator/rspimodulator";
+    child=exec(command, function (error, stdout, stderr) {
 
         console.log('stdout: ' + stdout);
 
