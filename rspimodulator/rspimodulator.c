@@ -94,11 +94,25 @@ void clr_pin(int pin) {
 int main(int argv, char** argc)
 {
 	
-		 // you must run this as root!!!
-	
-	//
-    // this is called after the contructor!
-	if(argv==2){
+	// you must run this as root!!!
+
+	//PIPE MODE
+    if(argv==1){
+	    char buffer[BUFFER_SIZE];
+	    for(;;) {
+	        size_t bytes = fread(buffer,  sizeof(char),BUFFER_SIZE,stdin);
+	        //fwrite(buffer, sizeof(char), bytes, stdout);
+	        //fflush(stdout);//output buffer right away
+	        if (bytes < BUFFER_SIZE)
+	            if (feof(stdin))
+	                dieGracefully("stream too short");
+
+	        send(buffer);
+	        
+	    }
+    }
+    //CMD ARG MODE
+    else if(argv==2){
 		send(argc[1]);	
 	}
 				 
