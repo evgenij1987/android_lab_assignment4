@@ -108,7 +108,7 @@ function runRadioTransmitter(house_code, switch_code, action) {
     var spawn = require('child_process').spawn;
 
     var command = "cat";
-    if(debugMode==this.DEBUG_RASPBERRY_PI) {
+    if(debugMode==exports.DEBUG_RASPBERRY_PI) {
         command="./../rspimodulator/rspimodulator";//to make it work you need to start server from sudo, due to GPIO access
     }
 
