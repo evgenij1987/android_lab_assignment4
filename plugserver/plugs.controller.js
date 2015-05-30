@@ -8,12 +8,28 @@ var PLUG_ON="ON";
 var PLUG_OFF="OFF";
 var ACTION_ON="10";
 var ACTION_OFF="01";
+
+var debugMode;
+
+
+exports.DEBUG_DEV_MACHINE=0;
+exports.DEBUG_RASPBERRY_PI=0;
+
+
+
 /**
- * Reads config.yaml file
- * Plugs are stored in configPlugsList. Initially all plugs are marked
- * as OFF. The server keeps state of plugs, when plugs are turned off/on.
+ * - Sets debug mode:If set DEBUG_DEV_MACHINE transmission binary is not accessed.
+ *  Instead the transmissed sequence is put to stdout via cat child process.
+ *  If set DEBUG_RASPBERRY_PI the binary is accessed the plug code + ACTION are piped to
+ *  binary. Transmission process is started only once here. And used via piping for each turnOn/turnOff
+ *  request
+ * - Reads config.yaml file
+ *  Plugs are stored in configPlugsList. Initially all plugs are marked
+ *  as OFF. The server keeps state of plugs, when plugs are turned off/on.
+ * @param mode
  */
-exports.init=function() {
+exports.init=function(mode) {
+    debugMode=mode;
     YAML = require('yamljs');
     // Load yaml file using YAML.load
     var nativeObj = YAML.load('config.yaml');
@@ -21,6 +37,8 @@ exports.init=function() {
     for (i = 0; i < configPlugsList.length; i++) {
         configPlugsList[i].state = "OFF";//initially all plugs are marked as OFF
     }
+
+    //RUN child process for transmission/cat if DEBUG_RASPBERRY_PI/DEBUG_DEV_MACHINE
     transmitterNativeProcess=runRadioTransmitter();
 
 };
@@ -89,10 +107,13 @@ function runRadioTransmitter(house_code, switch_code, action) {
 
     var spawn = require('child_process').spawn;
 
-    //var command="sudo ./../rspimodulator/rspimodulator "+house_code+switch_code+action;
-    //var command="echo ./../rspimodulator/rspimodulator "+house_code+switch_code+action;
-    //var command = "cat";
-    var command="sudo ./../rspimodulator/rspimodulator";
+    var command = "cat";
+    if(debugMode==this.DEBUG_RASPBERRY_PI) {
+        command="./../rspimodulator/rspimodulator";//to make it work you need to start server from sudo, due to GPIO access
+    }
+
+
+
     var child = spawn(command, []);
     child.stdout.on('data',
         function (buffer) {
