@@ -13,7 +13,7 @@ var debugMode;
 
 
 exports.DEBUG_DEV_MACHINE=0;
-exports.DEBUG_RASPBERRY_PI=0;
+exports.DEBUG_RASPBERRY_PI=1;
 
 
 

@@ -8,7 +8,7 @@ var PORT=3000;
 //controller switching on plugs and holding state
 plugController=require('./plugs.controller');
 
-plugController.init(plugController.DEBUG_DEV_MACHINE);//reading all available plugs from config.yaml
+plugController.init(plugController.DEBUG_RASPBERRY_PI);//reading all available plugs from config.yaml
 
 //API to list all available plugs
 app.get('/api/plugs',plugController.sendPlugList);
