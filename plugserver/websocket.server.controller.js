@@ -2,10 +2,10 @@
  * Created by evgenijavstein on 31/05/15.
  */
 var WebSocketServer = require('ws').Server;
-var SUBSCRIBE="subscribe";
-var UNSUBSCRIBE="unsubscribe";
-var SUCCESS_UNSUBSCRIBE="success_unsubscribe";
-var SUCCESS_SUBSCRIBE="success_subscribe";
+var SUBSCRIBE = "subscribe";
+var UNSUBSCRIBE = "unsubscribe";
+var SUCCESS_UNSUBSCRIBE = "success_unsubscribe";
+var SUCCESS_SUBSCRIBE = "success_subscribe";
 
 var webSocketServerController;
 function WebSocketServerController() {
@@ -21,7 +21,7 @@ WebSocketServerController.prototype.listen = function (port, debug) {
 
         ws.on('message', function (message) {
             //reject if not authorised connection
-            if (ws.upgradeReq.headers['auth'] != '123' ) //TODO: replace with auth header, which is received onlogin
+            if (ws.upgradeReq.headers['auth'] != '123') //TODO: replace with auth header, which is received onlogin
                 ws.close();
             //if authorised and asking for subscription add to list
             if (message == SUBSCRIBE) {
@@ -32,7 +32,7 @@ WebSocketServerController.prototype.listen = function (port, debug) {
             else if (message == UNSUBSCRIBE) {
                 ws.send(SUCCESS_UNSUBSCRIBE);
                 ws.close();
-            }else{
+            } else {
                 ws.close();
             }
 

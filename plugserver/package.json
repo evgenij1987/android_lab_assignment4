@@ -4,7 +4,9 @@
   "description": "simple server to control wireless plugs",
   "main": "plugserver.js",
   "dependencies": {
+    "body-parser": "^1.12.4",
     "express": "^4.12.4",
+    "node-validator": "^0.1.13",
     "ws": "^0.7.2",
     "yamljs": "^0.2.3"
   },

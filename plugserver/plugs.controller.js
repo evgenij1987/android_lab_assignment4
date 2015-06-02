@@ -1,20 +1,22 @@
 /**
  * Created by evgenijavstein on 28/05/15.
  */
-var Plug=require("./plug.js");
-var configPlugsList;
+var Plug = require("./plug.js");
+var validator = require('node-validator');
+var path = require('path');
+var fs = require('fs');
+//var configPlugsList;
 var transmitterNativeProcess;
-var PLUG_ON="ON";
-var PLUG_OFF="OFF";
-var ACTION_ON="10";
-var ACTION_OFF="01";
+var PLUG_ON = "ON";
+var PLUG_OFF = "OFF";
+var ACTION_ON = "10";
+var ACTION_OFF = "01";
 
 var debugMode;
+var config;
 
-
-exports.DEBUG_DEV_MACHINE=0;
-exports.DEBUG_RASPBERRY_PI=1;
-
+exports.DEBUG_DEV_MACHINE = 0;
+exports.DEBUG_RASPBERRY_PI = 1;
 
 
 /**
@@ -24,23 +26,20 @@ exports.DEBUG_RASPBERRY_PI=1;
  *  binary. Transmission process is started only once here. And used via piping for each turnOn/turnOff
  *  request
  * - Reads config.yaml file
- *  Plugs are stored in configPlugsList. Initially all plugs are marked
- *  as OFF. The server keeps state of plugs, when plugs are turned off/on.
+ *  Plugs are stored in configPlugsList.
+ *  The server keeps state of plugs, when plugs are turned off/on in config.yaml
  * @param mode
  */
-exports.init=function(mode) {
+exports.init = function (mode) {
 
-    debugMode=mode;
+    debugMode = mode;
     YAML = require('yamljs');
     // Load yaml file using YAML.load
-    var nativeObj = YAML.load('config.yaml');
-    configPlugsList = nativeObj.wireless_plugs;
-    for (i = 0; i < configPlugsList.length; i++) {
-        configPlugsList[i].state = "OFF";//initially all plugs are marked as OFF
-    }
+    config = YAML.load('config.yaml');
+    //configPlugsList = nativeObj.wireless_plugs;
 
     //RUN child process for radio transmission/cat if DEBUG_RASPBERRY_PI/DEBUG_DEV_MACHINE
-    transmitterNativeProcess=runRadioTransmitter();
+    transmitterNativeProcess = runRadioTransmitter();
 
 };
 /**
@@ -48,51 +47,94 @@ exports.init=function(mode) {
  * id, name. Clients just refer the id to turn a plug on/off.
  * House & switch code stays internal.
  */
-exports.sendPlugList=function(req, res){
+exports.sendPlugList = function (req, res) {
     //array holding plugs without plug code
-    var plugList=new Array();
+    var plugList = new Array();
     var plug;
 
-   for( i=0;i<configPlugsList.length;i++){
+    for (i = 0; i < config.wireless_plugs.length; i++) {
 
-       //Plug object just contains name & id to
-       //client just refers the id to turnOn/turnOff plug
-       plug=new Plug(configPlugsList[i].id,configPlugsList[i].name,configPlugsList[i].state);
-       plugList.push(plug);
-   }
+        //Plug object just contains name & id to
+        //client just refers the id to turnOn/turnOff plug
+        plug = new Plug(config.wireless_plugs[i]);
+        plugList.push(plug);
+    }
 
     res.send(plugList);
 }
 
-exports.turnOnPlug=function(req, res, next){
-    switchPlug(req,res, ACTION_ON, next);
+exports.turnOnPlug = function (req, res, next) {
+    switchPlug(req, res, ACTION_ON, next);
 
 }
 
 
-exports.turnOffPlug=function(req, res, next){
-   switchPlug(req, res, ACTION_OFF, next);
+exports.turnOffPlug = function (req, res, next) {
+    switchPlug(req, res, ACTION_OFF, next);
 }
 
 
-function switchPlug(req, res, action, next){
+exports.addPlug = function (req, res) {
+
+    var check = validator.isObject()
+        .withRequired('name', validator.isString({regex: /^[a-z ,.'-]+$/i}))
+        .withRequired('house_code', validator.isString({regex: /^(0|1){5}$/}))
+        .withRequired('switch_code', validator.isString({regex: /^(0|1){5}$/}))
+        .withRequired('state', validator.isString({regex: /(ON|OFF)$/}));
+
+    var newPlugConfig = {};
+    newPlugConfig.name = req.body.name;
+    newPlugConfig.house_code = req.body.house_code;
+    newPlugConfig.switch_code = req.body.switch_code;
+    newPlugConfig.state = req.body.state;
+
+
+    validator.run(check, newPlugConfig, function (errorCount, errors) {
+        if (errorCount == 0) {
+            //add new plug
+            config.wireless_plugs.push(newPlugConfig);
+            var newPlugId = config.wireless_plugs.indexOf(newPlugConfig) + 1;
+            newPlugConfig.id = newPlugId;
+
+            //persist state
+            saveFile(YAML.stringify(config, 4), "config.yaml");
+            res.send(new Plug(newPlugConfig));
+        } else {
+            res.send(errors);
+        }
+
+    })
+
+
+}
+
+exports.removePlug = function (req, res) {
+    var plugId = req.params.id;
+    var deletedPlugConf = removePlugById(plugId);
+    if (deletedPlugConf)
+        res.send(new Plug(deletedPlugConf));//send deleted plug as ack of deletion
+    else
+        res.sendStatus(400);//send bad request if no obj with such id could be deleted
+}
+
+function switchPlug(req, res, action, next) {
     //plugId from GET request
-    var plugId=req.params.id;
+    var plugId = req.params.id;
     //new state according to turnOn/turnOff request
-    var newState=action==ACTION_ON?PLUG_ON:PLUG_OFF;
+    var newState = action == ACTION_ON ? PLUG_ON : PLUG_OFF;
     //update config list to new state
-    var plugConfig=updateConfigPlugsList(plugId,newState);
+    var plugConfig = updateConfigPlugsList(plugId, newState);
 
-    if(plugConfig){
+    if (plugConfig) {
         ////pipe stream to turnoff on the plug via shell
-        transmitterNativeProcess.stdin.write(plugConfig.house_code+plugConfig.switch_code+action);
+        transmitterNativeProcess.stdin.write(plugConfig.house_code + plugConfig.switch_code + action);
         //Plug obj contains only data which the client should know, not more
-        var plug=new Plug(plugConfig.id, plugConfig.name, plugConfig.state);
-        req.plug=plug;//plug obj is appended on request obj and next next middle ware can access it there
+        var plug = new Plug(plugConfig);
+        req.plug = plug;//plug obj is appended on request obj and next next middle ware can access it there
         next();//run next middleware (next callback in chain)
 
 
-    }else{
+    } else {
         res.sendStatus(400);
     }
 
@@ -109,10 +151,9 @@ function runRadioTransmitter() {
     var spawn = require('child_process').spawn;
 
     var command = "cat";
-    if(debugMode==exports.DEBUG_RASPBERRY_PI) {
-        command="./../rspimodulator/rspimodulator";//to make it work you need to start server from sudo, due to GPIO access
+    if (debugMode == exports.DEBUG_RASPBERRY_PI) {
+        command = "./../rspimodulator/rspimodulator";//to make it work you need to start server from sudo, due to GPIO access
     }
-
 
 
     var child = spawn(command, []);
@@ -135,13 +176,48 @@ function runRadioTransmitter() {
  * @param state
  * @return plug
  */
-function updateConfigPlugsList(recId, state){
+function updateConfigPlugsList(recId, state) {
 
-    for(i=0;i<configPlugsList.length;i++){
-        if(configPlugsList[i].id==recId){
-            configPlugsList[i].state=state;
-           return configPlugsList[i];
+    var foundPlug = findPlugById(recId);
+    if (foundPlug) {
+        foundPlug.state = state;
+        saveFile(YAML.stringify(config, 4), "config.yaml");
+        return foundPlug;
+    }
+
+}
+
+function removePlugById(recId) {
+
+    var foundPlug = findPlugById(recId);
+    if (foundPlug) {
+        var index = config.wireless_plugs.indexOf(foundPlug);
+        var deletedPlug = new Plug(config.wireless_plugs[i]);
+        config.wireless_plugs.splice(index, 1);
+        //persist current state in config file
+        saveFile(YAML.stringify(config, 4), "config.yaml");
+        return deletedPlug;
+    }
+
+}
+
+function findPlugById(recId) {
+    for (i = 0; i < config.wireless_plugs.length; i++) {
+        if (config.wireless_plugs[i].id == recId) {
+
+            return config.wireless_plugs[i];
         }
 
     }
 }
+
+/**
+ * Helper for saving an obj or string to file
+ * @param data
+ * @param filename
+ */
+function saveFile(data, filename) {
+    if (typeof data !== "string") data = JSON.stringify(data);
+    var file = path.join(__dirname, './', filename);
+    fs.writeFile(file, data);
+};

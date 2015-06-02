@@ -1,14 +1,15 @@
 /**
  * Created by evgenijavstein on 01/06/15.
  */
+// Model used to hide information, which client doesn't need to know, like plug code
 // Constructor
-function Plug(id, name, state) {
+function Plug(obj) {
     // always initialize all instance properties
-    this.id=id;
-    this.name=name;
-    this.state=state;
+    this.id = obj.id;
+    this.name = obj.name;
+    this.state = obj.state;
 }
-// class methods
+
 
 // export the class
 module.exports = Plug;

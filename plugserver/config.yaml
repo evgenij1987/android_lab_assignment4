@@ -1,23 +1,25 @@
-# This is the list of plugs which will be made
-# available to the web server and served to the client
-# application
 wireless_plugs:
-  - id: 1
-    name: 'Plug A'
-    house_code: '10000'
-    switch_code: '10000'
-
-  - id: 2
-    name: 'Plug B'
-    house_code: '10000'
-    switch_code: '01000'
-
-  - id: 3
-    name: 'Plug C'
-    house_code: '10000'
-    switch_code: '00100'
-
-  - id: 4
-    name: 'Plug D'
-    house_code: '10000'
-    switch_code: '00010'
+    -
+        id: 1
+        name: 'Plug A'
+        house_code: '10000'
+        switch_code: '10000'
+        state: OFF
+    -
+        id: 2
+        name: 'Plug B'
+        house_code: '10000'
+        switch_code: '01000'
+        state: OFF
+    -
+        id: 3
+        name: 'Plug C'
+        house_code: '10000'
+        switch_code: '00100'
+        state: OFF
+    -
+        id: 4
+        name: 'Plug D'
+        house_code: '10000'
+        switch_code: '00010'
+        state: OFF
