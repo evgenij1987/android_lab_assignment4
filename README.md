@@ -1,5 +1,5 @@
 
-#1) INSTALL NODE
+##1) INSTALL NODE
 
 Install ARM version of Node.js on raspberry pi with:
 
@@ -13,7 +13,7 @@ Both should return a version number.
 
 
 
-#2) INSTALL DEPENDENCIES
+##2) INSTALL DEPENDENCIES
 
 Navigate to the folder with the node server:
 
@@ -25,7 +25,7 @@ Run:
 
 
 
-#3) RUN SERVER
+##3) RUN SERVER
 
 * sudo node plugserver.js
 
