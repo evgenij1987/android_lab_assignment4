@@ -93,10 +93,9 @@ function switchPlug(req, res, action, next){
 
 
     }else{
-        res.sendStatus(500);
+        res.sendStatus(400);
     }
 
-    //res.sendStatus(200);
 }
 
 /**

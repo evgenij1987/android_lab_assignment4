@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="257eab0b-aed2-4a6e-a791-69938a4d0158" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/plug.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/websocket.server.controller.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugs.controller.js" afterPath="$PROJECT_DIR$/plugs.controller.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugserver.js" afterPath="$PROJECT_DIR$/plugserver.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="plugserver.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,7 +28,7 @@
         <entry file="file://$PROJECT_DIR$/plugserver.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="44" column="50" selection-start-line="44" selection-start-column="50" selection-end-line="44" selection-end-column="50" />
+              <caret line="48" column="70" selection-start-line="48" selection-start-column="70" selection-end-line="48" selection-end-column="70" />
               <folding>
                 <element signature="e#0#49#0" expanded="false" />
               </folding>
@@ -40,10 +36,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="websocket.server.controller.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="websocket.server.controller.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/websocket.server.controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.2041885">
+            <state vertical-scroll-proportion="0.0">
               <caret line="48" column="7" selection-start-line="48" selection-start-column="7" selection-end-line="48" selection-end-column="7" />
               <folding>
                 <element signature="e#0#49#0" expanded="false" />
@@ -62,11 +58,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="plugs.controller.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="plugs.controller.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/plugs.controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="92" column="0" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.6317626">
+              <caret line="98" column="1" selection-start-line="98" selection-start-column="1" selection-end-line="98" selection-end-column="1" />
               <folding>
                 <element signature="e#0#49#0" expanded="false" />
               </folding>
@@ -125,10 +121,10 @@
         <option value="module.js" />
         <option value="$PROJECT_DIR$/config.yaml" />
         <option value="$PROJECT_DIR$/plug.js" />
-        <option value="$PROJECT_DIR$/plugs.controller.js" />
         <option value="$PROJECT_DIR$/websocket.server.js" />
         <option value="$PROJECT_DIR$/websocket.server.controller.js" />
         <option value="$PROJECT_DIR$/plugserver.js" />
+        <option value="$PROJECT_DIR$/plugs.controller.js" />
       </list>
     </option>
   </component>
@@ -140,8 +136,8 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="340" />
-    <option name="y" value="63" />
+    <option name="x" value="270" />
+    <option name="y" value="23" />
     <option name="width" value="1400" />
     <option name="height" value="984" />
   </component>
@@ -302,7 +298,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="340" y="63" width="1400" height="984" extended-state="0" />
+    <frame x="270" y="23" width="1400" height="984" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2145749" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -707,16 +703,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/plugs.controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="92" column="0" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#49#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/ws/lib/WebSocket.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -736,7 +722,7 @@
     <entry file="file://$PROJECT_DIR$/plugserver.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="44" column="50" selection-start-line="44" selection-start-column="50" selection-end-line="44" selection-end-column="50" />
+          <caret line="48" column="70" selection-start-line="48" selection-start-column="70" selection-end-line="48" selection-end-column="70" />
           <folding>
             <element signature="e#0#49#0" expanded="false" />
           </folding>
@@ -745,8 +731,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/websocket.server.controller.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.2041885">
+        <state vertical-scroll-proportion="0.0">
           <caret line="48" column="7" selection-start-line="48" selection-start-column="7" selection-end-line="48" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#49#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plugs.controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6317626">
+          <caret line="98" column="1" selection-start-line="98" selection-start-column="1" selection-end-line="98" selection-end-column="1" />
           <folding>
             <element signature="e#0#49#0" expanded="false" />
           </folding>

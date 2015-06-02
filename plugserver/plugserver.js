@@ -46,4 +46,4 @@ webSocketServerController.listen(WEB_SOCKET_PORT);
 
 
 console.log("plugserver running on: "+PORT);
-
+console.log("websocket notification server running on"+WEB_SOCKET_PORT);
