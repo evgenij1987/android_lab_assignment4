@@ -1,7 +1,7 @@
 /**
  * Created by evgenijavstein on 28/05/15.
  */
-
+var Plug=require("./plug.js");
 var configPlugsList;
 var transmitterNativeProcess;
 var PLUG_ON="ON";
@@ -29,6 +29,7 @@ exports.DEBUG_RASPBERRY_PI=1;
  * @param mode
  */
 exports.init=function(mode) {
+
     debugMode=mode;
     YAML = require('yamljs');
     // Load yaml file using YAML.load
@@ -38,7 +39,7 @@ exports.init=function(mode) {
         configPlugsList[i].state = "OFF";//initially all plugs are marked as OFF
     }
 
-    //RUN child process for transmission/cat if DEBUG_RASPBERRY_PI/DEBUG_DEV_MACHINE
+    //RUN child process for radio transmission/cat if DEBUG_RASPBERRY_PI/DEBUG_DEV_MACHINE
     transmitterNativeProcess=runRadioTransmitter();
 
 };
@@ -49,60 +50,61 @@ exports.init=function(mode) {
  */
 exports.sendPlugList=function(req, res){
     //array holding plugs without plug code
-    var clientPlugs=new Array();
-    var item;
+    var plugList=new Array();
+    var plug;
+
    for( i=0;i<configPlugsList.length;i++){
 
-       //just send name & id to client
-       //client just refers the id
-       item={};
-       item.id=configPlugsList[i].id;
-       item.name=configPlugsList[i].name;
-       item.state=configPlugsList[i].state;
-       clientPlugs.push(item);
+       //Plug object just contains name & id to
+       //client just refers the id to turnOn/turnOff plug
+       plug=new Plug(configPlugsList[i].id,configPlugsList[i].name,configPlugsList[i].state);
+       plugList.push(plug);
    }
 
-    res.send(clientPlugs);
+    res.send(plugList);
 }
 
-exports.turnOnPlug=function(req, res){
-    var turnOnID= req.params.id;
-    //update plug list, get updated element
+exports.turnOnPlug=function(req, res, next){
+    switchPlug(req,res, ACTION_ON, next);
 
-    var plug=updateConfigPlugsList(turnOnID,PLUG_ON);
-    if(plug){
-        //run binary rspimodulator to turn on the plug via shell
-        //runRadioTransmitter(plug.house_code, plug.switch_code, ACTION_ON);
-        transmitterNativeProcess.stdin.write(plug.house_code+plug.switch_code+ACTION_ON);
-        res.sendStatus(200);
+}
+
+
+exports.turnOffPlug=function(req, res, next){
+   switchPlug(req, res, ACTION_OFF, next);
+}
+
+
+function switchPlug(req, res, action, next){
+    //plugId from GET request
+    var plugId=req.params.id;
+    //new state according to turnOn/turnOff request
+    var newState=action==ACTION_ON?PLUG_ON:PLUG_OFF;
+    //update config list to new state
+    var plugConfig=updateConfigPlugsList(plugId,newState);
+
+    if(plugConfig){
+        ////pipe stream to turnoff on the plug via shell
+        transmitterNativeProcess.stdin.write(plugConfig.house_code+plugConfig.switch_code+action);
+        //Plug obj contains only data which the client should know, not more
+        var plug=new Plug(plugConfig.id, plugConfig.name, plugConfig.state);
+        req.plug=plug;//plug obj is appended on request obj and next next middle ware can access it there
+        next();//run next middleware (next callback in chain)
+
+
     }else{
         res.sendStatus(500);
     }
 
+    //res.sendStatus(200);
 }
 
-
-exports.turnOffPlug=function(req, res){
-    var turnOffId=req.params.id;
-    var plug=updateConfigPlugsList(turnOffId,PLUG_OFF);
-
-    if(plug){
-        transmitterNativeProcess.stdin.write(plug.house_code+plug.switch_code+ACTION_OFF);
-        //runRadioTransmitter(plug.house_code, plug.switch_code, ACTION_OFF)
-    }else{
-        res.sendStatus(500);
-    }
-
-    res.sendStatus(200);
-}
 /**
  * Runs binary via shell command, which modulates the signal corresponding to the plug code and action
- * as a pulse width modulation.
- * @param house_code
- * @param switch_code
- * @param action
+ * as a pulse width modulation. The sequence to be modulated is read from pipe (stdin).
+
  */
-function runRadioTransmitter(house_code, switch_code, action) {
+function runRadioTransmitter() {
 
 
     var spawn = require('child_process').spawn;
