@@ -20,12 +20,12 @@ exports.DEBUG_RASPBERRY_PI = 1;
 
 
 /**
- * - Sets debug mode:If set DEBUG_DEV_MACHINE transmission binary is not accessed.
- *  Instead the transmissed sequence is put to stdout via cat child process.
+ *  Sets debug mode: If set DEBUG_DEV_MACHINE transmission binary is not accessed.
+ *  Instead the transmitted sequence is put to stdout via cat child process.
  *  If set DEBUG_RASPBERRY_PI the binary is accessed the plug code + ACTION are piped to
  *  binary. Transmission process is started only once here. And used via piping for each turnOn/turnOff
  *  request
- * - Reads config.yaml file
+ *  Reads config.yaml file
  *  Plugs are stored in configPlugsList.
  *  The server keeps state of plugs, when plugs are turned off/on in config.yaml
  * @param mode
