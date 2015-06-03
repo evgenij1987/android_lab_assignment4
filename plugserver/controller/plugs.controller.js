@@ -1,10 +1,11 @@
 /**
  * Created by evgenijavstein on 28/05/15.
  */
-var Plug = require("./plug.js");
+var Plug = require("./../model/plug.js");
 var validator = require('node-validator');
-var path = require('path');
-var fs = require('fs');
+var helper=require('./../controller/helper');
+var YAML;
+
 //var configPlugsList;
 var transmitterNativeProcess;
 var PLUG_ON = "ON";
@@ -97,7 +98,7 @@ exports.addPlug = function (req, res) {
             newPlugConfig.id = newPlugId;
 
             //persist state
-            saveFile(YAML.stringify(config, 4), "config.yaml");
+            helper.saveFile(YAML.stringify(config, 4), "config.yaml");
             res.send(new Plug(newPlugConfig));
         } else {
             res.send(errors);
@@ -181,7 +182,7 @@ function updateConfigPlugsList(recId, state) {
     var foundPlug = findPlugById(recId);
     if (foundPlug) {
         foundPlug.state = state;
-        saveFile(YAML.stringify(config, 4), "config.yaml");
+        helper.saveFile(YAML.stringify(config, 4), "config.yaml");
         return foundPlug;
     }
 
@@ -195,7 +196,7 @@ function removePlugById(recId) {
         var deletedPlug = new Plug(config.wireless_plugs[i]);
         config.wireless_plugs.splice(index, 1);
         //persist current state in config file
-        saveFile(YAML.stringify(config, 4), "config.yaml");
+        helper.saveFile(YAML.stringify(config, 4), "config.yaml");
         return deletedPlug;
     }
 
@@ -211,13 +212,3 @@ function findPlugById(recId) {
     }
 }
 
-/**
- * Helper for saving an obj or string to file
- * @param data
- * @param filename
- */
-function saveFile(data, filename) {
-    if (typeof data !== "string") data = JSON.stringify(data);
-    var file = path.join(__dirname, './', filename);
-    fs.writeFile(file, data);
-};

@@ -1,0 +1,8 @@
+users:
+    -
+        login: admin
+        first_name: Max
+        last_name: Mustermann
+        role: admin
+        password: VLw2AvgNUrmt0t2JuuJ39U7ytfPYSvfjkMwO6NlajzX/bkiBALRXDR9LNRaHBRxhKAKsMlZuw5NTtf4TMbVdSg==
+        salt: FcCtKqZmhx2ouwR79IQnpg==
