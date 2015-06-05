@@ -1,8 +1,15 @@
 users:
     -
         login: admin
-        first_name: Max
-        last_name: Mustermann
+        first_name: Benjamin
+        last_name: Button
         role: admin
-        password: VLw2AvgNUrmt0t2JuuJ39U7ytfPYSvfjkMwO6NlajzX/bkiBALRXDR9LNRaHBRxhKAKsMlZuw5NTtf4TMbVdSg==
-        salt: FcCtKqZmhx2ouwR79IQnpg==
+        password: SYU/6TJ0wOFH2TJvd8MnPQi25fyWvGtOQhRAiOVYmKSZkzIfJoNld5muwxpyZ17gIaHoYU6j+UW1Vg6jaVncOw==
+        salt: WwEKkZqIZFiYig3lm9TAbA==
+    -
+        login: ted
+        first_name: Ted
+        last_name: Freeman
+        role: user
+        password: 7+DyiAi9+rioIeNKsc15qfA+mNuZ7mWFd2gmmP218gXDu7HWOg5Z7oZTG0XmFcvlXVIEtkAQinDE2vKmao98Qw==
+        salt: I5utpgF3UzLwqFsGztyOog==

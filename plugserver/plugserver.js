@@ -4,6 +4,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var passport = require('passport');
+
+//passport with http basic authentication
 var authController = require('./auth/passport');
 var WebSocketServerController = require('./controller/websocket.server.controller.js');
 
@@ -39,11 +41,11 @@ app.route('/api/plugs')
     .post(authController.isAuthenticated,plugController.addPlug);
 
 //API to delete a plug by id
-app.delete('/api/plugs/:id', plugController.removePlug);
+app.delete('/api/plugs/:id', authController.isAuthenticated,plugController.removePlug);
 
 //API to turn on a plug by id
 //after plugController.turnOnPlug() is run, socketServerController.notifyAll notifies all clients via web sockets about change
-app.get('/api/plugs/turnON/:id', plugController.turnOnPlug,
+app.get('/api/plugs/turnON/:id', authController.isAuthenticated,plugController.turnOnPlug,
     function (req, res) {
         //req contains plug which was switched, notify all about the plug switched
         webSocketServerController.notifyAll(req, res);
@@ -52,7 +54,7 @@ app.get('/api/plugs/turnON/:id', plugController.turnOnPlug,
 );
 //API to turn off a plug by id
 //notify all clients via web sockets about change, same as above
-app.get('/api/plugs/turnOFF/:id', plugController.turnOffPlug,
+app.get('/api/plugs/turnOFF/:id', authController.isAuthenticated,plugController.turnOffPlug,
     function (req, res) {
         //req contains plug which was switched, notify all about the plug switched
         webSocketServerController.notifyAll(req, res);
@@ -60,16 +62,12 @@ app.get('/api/plugs/turnOFF/:id', plugController.turnOffPlug,
     }
 );
 
-app.post('/api/authenticate',
-    passport.authenticate('basic', { session: false }),
-    function(req, res) {
-        res.send("auth success");
-    }
 
-);
 app.route('/api/users')
-        .post(userController.addUser)
-        .delete(userController.removeUser);
+        //API to add a new user, can be done by admin user
+        .post(authController.isAuthenticated,userController.isAdmin,userController.addUser)
+        //API to remove an existing user by admin user
+        .delete(authController.isAuthenticated,userController.isAdmin,userController.removeUser);
 
 
 
