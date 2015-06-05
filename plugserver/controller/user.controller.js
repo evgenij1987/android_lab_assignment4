@@ -37,7 +37,7 @@ exports.isAdmin = function (req,res,next) {
      if(user.role === 'admin'){
          next();
      }else{
-         res.status(400).send({message:"No permission: you need to be admin to add users."});
+         res.status(400).send({message:"No permission: you need to be admin to perfrom this."});
      }
 }
 /**

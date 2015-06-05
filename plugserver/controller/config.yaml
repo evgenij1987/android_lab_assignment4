@@ -10,7 +10,7 @@ wireless_plugs:
         name: 'Plug B'
         house_code: '10000'
         switch_code: '01000'
-        state: ON
+        state: OFF
     -
         id: 3
         name: 'Plug C'
@@ -23,9 +23,3 @@ wireless_plugs:
         house_code: '10000'
         switch_code: '00010'
         state: OFF
-    -
-        name: 'Awesome Plug'
-        house_code: '11111'
-        switch_code: '11111'
-        state: OFF
-        id: 5

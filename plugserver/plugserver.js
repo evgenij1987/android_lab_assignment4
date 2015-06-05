@@ -38,10 +38,10 @@ app.route('/api/plugs')
     //API to list all available plugs
     .get(authController.isAuthenticated,plugController.sendPlugList)
     //API to add a new plug
-    .post(authController.isAuthenticated,plugController.addPlug);
+    .post(authController.isAuthenticated,userController.isAdmin,plugController.addPlug);
 
 //API to delete a plug by id
-app.delete('/api/plugs/:id', authController.isAuthenticated,plugController.removePlug);
+app.delete('/api/plugs/:id', authController.isAuthenticated,userController.isAdmin,plugController.removePlug);
 
 //API to turn on a plug by id
 //after plugController.turnOnPlug() is run, socketServerController.notifyAll notifies all clients via web sockets about change

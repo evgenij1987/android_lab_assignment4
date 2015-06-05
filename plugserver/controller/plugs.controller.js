@@ -13,6 +13,8 @@ var PLUG_OFF = "OFF";
 var ACTION_ON = "10";
 var ACTION_OFF = "01";
 
+var MESSAGE_NO_SUCH_PLUG="No such plug found!"
+
 var debugMode;
 var config;
 
@@ -115,7 +117,7 @@ exports.removePlug = function (req, res) {
     if (deletedPlugConf)
         res.send(new Plug(deletedPlugConf));//send deleted plug as ack of deletion
     else
-        res.sendStatus(400);//send bad request if no obj with such id could be deleted
+        res.status(400).send({message:MESSAGE_NO_SUCH_PLUG});//send bad request if no obj with such id could be deleted
 }
 
 function switchPlug(req, res, action, next) {
@@ -136,7 +138,7 @@ function switchPlug(req, res, action, next) {
 
 
     } else {
-        res.sendStatus(400);
+        res.status(400).send({message:MESSAGE_NO_SUCH_PLUG});
     }
 
 }
