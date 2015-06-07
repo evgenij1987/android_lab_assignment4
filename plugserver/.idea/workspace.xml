@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="257eab0b-aed2-4a6e-a791-69938a4d0158" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugserver.js" afterPath="$PROJECT_DIR$/plugserver.js" />
-    </list>
+    <list default="true" id="257eab0b-aed2-4a6e-a791-69938a4d0158" name="Default" comment="" />
     <ignored path="plugserver.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
