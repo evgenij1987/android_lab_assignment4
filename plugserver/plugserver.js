@@ -69,7 +69,7 @@ app.route('/api/users')
         //API to remove an existing user by admin user
         .delete(authController.isAuthenticated,userController.isAdmin,userController.removeUser);
 
-app.post('/api/authenticate',authController.isAuthenticated,function(req, res){
+app.get('/api/authenticate',authController.isAuthenticated,function(req, res){
 
     res.sendStatus(200);
 });
