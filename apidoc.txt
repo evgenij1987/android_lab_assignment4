@@ -1,0 +1,74 @@
+>>Authenticate ALL REQUESTs with with a Authorisation header:
+
+Example for admin user ->admin:admin1234
+
+	Authorization: Basic YWRtaW46YWRtaW4xMjM0
+
+
+
+
+Example for no-admin user -> ted:ted1234
+
+	Authorization: Basic dGVkOnRlZDEyMzQ=
+
+
+
+>>New plug
+
+POST: http://localhost:3000/api/plugs/
+{
+"name":"Awesome plug",
+"house_code": "11111",
+"switch_code": "11111",
+"state": "OFF"
+}
+Response will be the new plug.
+
+
+
+
+>>Remove plug
+
+DELETE: http://localhost:3000/api/plugs/5
+Response: deleted plug
+
+
+
+>>New user
+
+//POST: http://localhost:3000/api/users
+{
+"login":"Kat",
+"first_name":"Kat",
+"last_name":"Dog",
+"role":"admin",
+"password":"katdog1982"
+}
+Response will be the new user.
+
+
+
+>>Remove user
+
+DELETE: http://localhost:3000/api/users/
+{
+ "login":"ben"
+}
+Response will be the deleted user info.
+
+
+
+>>WEB SOCKETS API
+ 
+	1)install wscat with 
+		npm install -g wscat
+
+ 	2) Connect: 
+	      wscat -H 'Authorization:Basic dGVkOnRlZDEyMzQ=' -c ws://127.0.0.1:3001 -p 8
+
+
+	To subscribe for plug events send string:
+		"subscribe"
+
+	To unsubscribe for plug events send string:
+		"unsubscribe"
