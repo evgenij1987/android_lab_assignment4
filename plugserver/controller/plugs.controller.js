@@ -1,23 +1,28 @@
 /**
  * Created by evgenijavstein on 28/05/15.
  */
-var Plug = require("./../model/plug.js");
-var validator = require('node-validator');
-var helper=require('./../controller/helper');
-var YAML;
+var Plug = require("./../model/plug.js"),
+    validator = require('node-validator');
 
-//var configPlugsList;
+
+var fileHelper = require('./filehelper');
 var transmitterNativeProcess;
+
+//plug states
 var PLUG_ON = "ON";
 var PLUG_OFF = "OFF";
+
+//End of sequence to turn on/off
 var ACTION_ON = "10";
 var ACTION_OFF = "01";
 
-var MESSAGE_NO_SUCH_PLUG="No such plug found!"
+var MESSAGE_NO_SUCH_PLUG = "No such plug found!"
 
 var debugMode;
 var config;
+var YAML;
 
+//if DEBUG_DEV_MACHINE is chonse in init() the sequence is not modulated but piped to cat tool
 exports.DEBUG_DEV_MACHINE = 0;
 exports.DEBUG_RASPBERRY_PI = 1;
 
@@ -38,7 +43,7 @@ exports.init = function (mode) {
     debugMode = mode;
     YAML = require('yamljs');
     // Load yaml file using YAML.load
-    config = YAML.load('config.yaml');
+    config = YAML.load("config.yaml");
     //configPlugsList = nativeObj.wireless_plugs;
 
     //RUN child process for radio transmission/cat if DEBUG_RASPBERRY_PI/DEBUG_DEV_MACHINE
@@ -65,18 +70,32 @@ exports.sendPlugList = function (req, res) {
 
     res.send(plugList);
 }
-
+/**
+ * Turns on a plug using ACTION_OFF at the end of piped sequence
+ * @param req
+ * @param res
+ * @param next
+ */
 exports.turnOnPlug = function (req, res, next) {
     switchPlug(req, res, ACTION_ON, next);
 
 }
 
-
+/**
+ * Turns off a plug using ACTION_OFF at the end of piped sequence
+ * @param req
+ * @param res
+ * @param next
+ */
 exports.turnOffPlug = function (req, res, next) {
     switchPlug(req, res, ACTION_OFF, next);
 }
 
-
+/**
+ * Adds a plug if data provided is valid
+ * @param req
+ * @param res
+ */
 exports.addPlug = function (req, res) {
 
     var check = validator.isObject()
@@ -100,7 +119,7 @@ exports.addPlug = function (req, res) {
             newPlugConfig.id = newPlugId;
 
             //persist state
-            helper.saveFile(YAML.stringify(config, 4), "config.yaml");
+            fileHelper.saveFile(YAML.stringify(config, 4), "/../config.yaml");
             res.send(new Plug(newPlugConfig));
         } else {
             res.send(errors);
@@ -110,16 +129,26 @@ exports.addPlug = function (req, res) {
 
 
 }
-
+/**
+ * Removes plug or if not found sends 400
+ * @param req
+ * @param res
+ */
 exports.removePlug = function (req, res) {
     var plugId = req.params.id;
     var deletedPlugConf = removePlugById(plugId);
     if (deletedPlugConf)
         res.send(new Plug(deletedPlugConf));//send deleted plug as ack of deletion
     else
-        res.status(400).send({message:MESSAGE_NO_SUCH_PLUG});//send bad request if no obj with such id could be deleted
+        res.status(400).send({message: MESSAGE_NO_SUCH_PLUG});//send bad request if no obj with such id could be deleted
 }
-
+/**
+ * Switches a plug by writing to unix pipe of the process which is started in runRadioTransmitter()-method
+ * @param req
+ * @param res
+ * @param action
+ * @param next
+ */
 function switchPlug(req, res, action, next) {
     //plugId from GET request
     var plugId = req.params.id;
@@ -138,7 +167,7 @@ function switchPlug(req, res, action, next) {
 
 
     } else {
-        res.status(400).send({message:MESSAGE_NO_SUCH_PLUG});
+        res.status(400).send({message: MESSAGE_NO_SUCH_PLUG});
     }
 
 }
@@ -152,13 +181,15 @@ function runRadioTransmitter() {
 
 
     var spawn = require('child_process').spawn;
-
+    //only for debug mode without raspberry since it accepts a unix pipe,too
     var command = "cat";
+
     if (debugMode == exports.DEBUG_RASPBERRY_PI) {
+        //run binary command
         command = "./../rspimodulator/rspimodulator";//to make it work you need to start server from sudo, due to GPIO access
     }
 
-
+    //process is started only once here and used via pipe again and again
     var child = spawn(command, []);
     child.stdout.on('data',
         function (buffer) {
@@ -184,12 +215,16 @@ function updateConfigPlugsList(recId, state) {
     var foundPlug = findPlugById(recId);
     if (foundPlug) {
         foundPlug.state = state;
-        helper.saveFile(YAML.stringify(config, 4), "config.yaml");
+        fileHelper.saveFile(YAML.stringify(config, 4), "/../config.yaml");
         return foundPlug;
     }
 
 }
-
+/**
+ * Remove a plug if one found with this id
+ * @param recId
+ * @returns {Plug|exports|module.exports}
+ */
 function removePlugById(recId) {
 
     var foundPlug = findPlugById(recId);
@@ -198,12 +233,17 @@ function removePlugById(recId) {
         var deletedPlug = new Plug(config.wireless_plugs[i]);
         config.wireless_plugs.splice(index, 1);
         //persist current state in config file
-        helper.saveFile(YAML.stringify(config, 4), "config.yaml");
+        fileHelper.saveFile(YAML.stringify(config, 4), "/../config.yaml");
         return deletedPlug;
     }
 
 }
 
+/**
+ * Find plug by id
+ * @param recId
+ * @returns {*}
+ */
 function findPlugById(recId) {
     for (i = 0; i < config.wireless_plugs.length; i++) {
         if (config.wireless_plugs[i].id == recId) {

@@ -5,12 +5,17 @@
 var YAML = require('yamljs'),
     crypto = require('crypto'),
     User = require('./../model/user.js'),
-    helper = require('./../controller/helper');
-validator = require('node-validator');
-userConfig = YAML.load('users.yaml');
+    validator = require('node-validator');
 
-exports.sendAuthenticatedUser=function(req,res){
-    var user=clone(req.user);
+var fileHelper = require('./filehelper');
+var userConfig = YAML.load('users.yaml');
+/**
+ * Authenticated user is send to client, without password hash & salt
+ * @param req
+ * @param res
+ */
+exports.sendAuthenticatedUser = function (req, res) {
+    var user = clone(req.user);
     //remove sensitive information
     delete user.password;
     delete user.salt;
@@ -38,13 +43,13 @@ exports.authenticateUser = function (login, password) {
  * @param res
  * @returns {boolean}
  */
-exports.isAdmin = function (req,res,next) {
+exports.isAdmin = function (req, res, next) {
     var user = exports.findUser(req.user.login);
-     if(user.role === 'admin'){
-         next();
-     }else{
-         res.status(400).send({message:"No permission: you need to be admin to perfrom this."});
-     }
+    if (user.role === 'admin') {
+        next();
+    } else {
+        res.status(400).send({message: "No permission: you need to be admin to perfrom this."});
+    }
 }
 /**
  * Adds a user is valid user data was provided.
@@ -52,7 +57,7 @@ exports.isAdmin = function (req,res,next) {
  * @param req
  * @param res
  */
-exports.addUser = function (req, res,next) {
+exports.addUser = function (req, res, next) {
 
     //should validate here first
 
@@ -77,7 +82,7 @@ exports.addUser = function (req, res,next) {
 
                 userConfig.users.push(newUser);
                 //persist state of user list
-                helper.saveFile(YAML.stringify(userConfig, 4), "/../users.yaml");
+                fileHelper.saveFile(YAML.stringify(userConfig, 4), "/../users.yaml");
                 res.send(newUser);
             } else {
 
@@ -104,7 +109,7 @@ exports.removeUser = function (req, res) {
         if (removedUser) {
             var index = userConfig.users.indexOf(removedUser);
             userConfig.users.splice(index, 1);
-            helper.saveFile(YAML.stringify(userConfig, 4), "/../users.yaml");
+            fileHelper.saveFile(YAML.stringify(userConfig, 4), "/../users.yaml");
             res.send(removedUser);
         } else {
             res.status(400).send({message: "there is no such user"})
@@ -121,7 +126,7 @@ exports.removeUser = function (req, res) {
  * @param login
  * @returns {*}
  */
-exports.findUser=function(login) {
+exports.findUser = function (login) {
     for (var i = 0; i < userConfig.users.length; i++) {
         if (userConfig.users[i].login == login) {
             return userConfig.users[i];
@@ -149,7 +154,10 @@ function createPasswordHash(password, salt) {
     var buffer = new Buffer(salt, 'base64')
     return crypto.pbkdf2Sync(password, buffer, 10000, 64).toString('base64');
 }
-
+/**
+ * Helper workaround to simulate clone() from Java
+ * @param a
+ */
 function clone(a) {
     return JSON.parse(JSON.stringify(a));
 }

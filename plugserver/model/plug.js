@@ -1,7 +1,7 @@
 /**
  * Created by evgenijavstein on 01/06/15.
  */
-// Model used to hide information, which client doesn't need to know, like plug code
+
 // Constructor
 function Plug(obj) {
     // always initialize all instance properties

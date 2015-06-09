@@ -27,5 +27,5 @@ wireless_plugs:
         name: 'Awesome Plug'
         house_code: '11111'
         switch_code: '11111'
-        state: OFF
+        state: ON
         id: 5

@@ -1,23 +1,43 @@
 /**
  * Created by evgenijavstein on 31/05/15.
  */
-var WebSocketServer = require('ws').Server;
+
+//constructor
+var WebSocketServer = require('ws').Server,
+    userController = require('./../controller/user.controller'),
+    https = require('https'),
+    fs = require('fs');
+
+//helper variable to be accessed from inner class
+var webSocketServerController;
+
+//messages to be accepted
 var SUBSCRIBE = "subscribe";
 var UNSUBSCRIBE = "unsubscribe";
+
+//response messages
 var SUCCESS_UNSUBSCRIBE = "success_unsubscribe";
 var SUCCESS_SUBSCRIBE = "success_subscribe";
 var NOT_AUTHENTICATED = "not authenticated!";
-var userController = require('./../controller/user.controller');
-var webSocketServerController;
-var https = require('https');
-var fs = require('fs');
+
+/**
+ * Constructor, a new array for incoming connections is created and filled later by each
+ * subscription for event.
+ * @constructor
+ */
 function WebSocketServerController() {
 
     webSocketServerController = this;//workaround, otherwise  'this' is not accessible from ws.on callbacks
     this.authorisedClients = new Array();
 }
-
+/**
+ * Listens on provided port, accepts web socket connections, if authorization header allows
+ * to do so. Subscription is successful if user provided in header is authenticated and a SUBSCRIBE
+ * is sent.Then the websocket will receive notifications.
+ * @param port
+ */
 WebSocketServerController.prototype.listen = function (port) {
+    //https server for websocket http handshake
     var app = https.createServer({
 
         // providing server with  SSL key/cert
@@ -70,7 +90,7 @@ WebSocketServerController.prototype.listen = function (port) {
 
 
 /**
- * Send a notification to all clients, that plugslist has changed,
+ * Send a notification to all clients, that plug list has changed,
  * clients need to get the new version themselves via /api/plugs
  */
 WebSocketServerController.prototype.notifyAll = function (req, res) {
@@ -87,6 +107,7 @@ WebSocketServerController.prototype.notifyAll = function (req, res) {
  * @returns {*}
  */
 function getCredentials(req) {
+    //find authorization header
     var authorization = req.headers['authorization'];
     if (!authorization) {
         return null;
