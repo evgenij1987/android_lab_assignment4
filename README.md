@@ -30,3 +30,11 @@ Run:
 * sudo node plugserver.js
 
 we need sudo because of GPIO access, which is required by rspimodulator native module
+
+
+##4) RUN ANDROID APPLICATION
+
+use the following user:
+
+login: admin
+password: admin1234
