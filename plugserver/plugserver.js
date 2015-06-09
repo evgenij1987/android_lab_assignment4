@@ -4,7 +4,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var passport = require('passport');
-
+var https = require('https');
+var fs = require('fs');
 //passport with http basic authentication
 var authController = require('./auth/passport');
 var WebSocketServerController = require('./controller/websocket.server.controller.js');
@@ -71,8 +72,12 @@ app.route('/api/users')
 
 app.get('/api/authenticate',authController.isAuthenticated,userController.sendAuthenticatedUser);
 
+https.createServer({
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem')
+}, app).listen(PORT);
 
-app.listen(PORT);
+//app.listen(PORT);
 webSocketServerController.listen(WEB_SOCKET_PORT);
 
 

@@ -9,6 +9,8 @@ var SUCCESS_SUBSCRIBE = "success_subscribe";
 var NOT_AUTHENTICATED = "not authenticated!";
 var userController = require('./../controller/user.controller');
 var webSocketServerController;
+var https = require('https');
+var fs = require('fs');
 function WebSocketServerController() {
 
     webSocketServerController = this;//workaround, otherwise  'this' is not accessible from ws.on callbacks
@@ -16,8 +18,15 @@ function WebSocketServerController() {
 }
 
 WebSocketServerController.prototype.listen = function (port) {
+    var app = https.createServer({
 
-    this.webSocketServer = new WebSocketServer({port: port});
+        // providing server with  SSL key/cert
+        key: fs.readFileSync('key.pem'),
+        cert: fs.readFileSync('cert.pem')
+
+    } ).listen( port);
+
+    this.webSocketServer = new WebSocketServer({server:app});
     this.webSocketServer.on('connection', function (ws) {
 
         //reject if no attempt too authenticate with http basic
