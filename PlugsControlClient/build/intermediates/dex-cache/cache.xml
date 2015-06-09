@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/evgenijavstein/.gradle/caches/modules-2/files-2.1/org.java-websocket/Java-WebSocket/1.3.0/db2658f013fb163de4a99274c2eb9e17efe535d2/Java-WebSocket-1.3.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="db2658f013fb163de4a99274c2eb9e17efe535d2">
+        <dex dex="/Users/evgenijavstein/git/temp/Plug_Control_System/PlugsControlClient/app/build/intermediates/pre-dexed/debug/Java-WebSocket-1.3.0-2b348265c1ad024a539c856ec79eb3e646f6a9ef.jar" />
+    </item>
+    <item
+        jar="/Users/evgenijavstein/git/temp/Plug_Control_System/PlugsControlClient/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="a3ff3c506644c820eb2bdf06e8339f72be578551">
+        <dex dex="/Users/evgenijavstein/git/temp/Plug_Control_System/PlugsControlClient/app/build/intermediates/pre-dexed/debug/classes-0166e8b1270ff2b32a3acc2c8623d73fb9fb9232.jar" />
+    </item>
+    <item
+        jar="/Users/evgenijavstein/git/temp/Plug_Control_System/PlugsControlClient/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/libs/internal_impl-22.1.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="9e070ad32b2700b0343e8e0cccc437733d91ba3a">
+        <dex dex="/Users/evgenijavstein/git/temp/Plug_Control_System/PlugsControlClient/app/build/intermediates/pre-dexed/debug/internal_impl-22.1.1-634482ca0d51b3f7f9cab7db32b5a432065b9c42.jar" />
+    </item>
+    <item
+        jar="/Users/evgenijavstein/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.1.1/support-annotations-22.1.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01d051a6bfb1218b1db2d3a5af0480ac2c25c42a">
+        <dex dex="/Users/evgenijavstein/git/temp/Plug_Control_System/PlugsControlClient/app/build/intermediates/pre-dexed/debug/support-annotations-22.1.1-46722086dfa94ce25f6007e39664f1c2d774a91a.jar" />
+    </item>
+    <item
+        jar="/Users/evgenijavstein/git/temp/Plug_Control_System/PlugsControlClient/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="c95ba8152923e4872e86a82cfcba9a51c0214328">
+        <dex dex="/Users/evgenijavstein/git/temp/Plug_Control_System/PlugsControlClient/app/build/intermediates/pre-dexed/debug/classes-f1cdca7bc0bc3f9b84392cf31f967e584d2e03e9.jar" />
+    </item>
+
+</items>

@@ -19,7 +19,7 @@ var WEB_SOCKET_PORT = PORT + 1;
 var authController = require('./auth/passport');
 //controller switching on plugs and holding state
 var plugController = require('./controller/plugs.controller.js');
-plugController.init(plugController.DEBUG_DEV_MACHINE);//reading all available plugs from config.yaml
+plugController.init(plugController.DEBUG_RASPBERRY_PI);//reading all available plugs from config.yaml
 
 var userController = require('./controller/user.controller');
 
