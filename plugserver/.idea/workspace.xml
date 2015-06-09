@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="257eab0b-aed2-4a6e-a791-69938a4d0158" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugserver.js" afterPath="$PROJECT_DIR$/plugserver.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/user.controller.js" afterPath="$PROJECT_DIR$/controller/user.controller.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/websocket.server.controller.js" afterPath="$PROJECT_DIR$/controller/websocket.server.controller.js" />
     </list>
     <ignored path="plugserver.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,10 +23,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="plugserver.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="plugserver.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/plugserver.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.48741007">
+            <state vertical-scroll-proportion="0.0">
               <caret line="67" column="91" selection-start-line="67" selection-start-column="91" selection-end-line="67" selection-end-column="91" />
               <folding />
             </state>
@@ -65,11 +63,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="websocket.server.controller.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="websocket.server.controller.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/controller/websocket.server.controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="25" column="8" selection-start-line="25" selection-start-column="8" selection-end-line="25" selection-end-column="8" />
+            <state vertical-scroll-proportion="0.11857708">
+              <caret line="8" column="13" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="45" />
               <folding>
                 <element signature="e#0#49#0" expanded="false" />
               </folding>
@@ -114,7 +112,7 @@
       <file leaf-file-name="authenticator.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/node_modules/passport/lib/authenticator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.222222">
+            <state vertical-scroll-proportion="0.0">
               <caret line="166" column="30" selection-start-line="166" selection-start-column="30" selection-end-line="166" selection-end-column="30" />
               <folding />
             </state>
@@ -160,12 +158,12 @@
         <option value="$PROJECT_DIR$/model/user.js" />
         <option value="$PROJECT_DIR$/auth/local.js" />
         <option value="$PROJECT_DIR$/auth/passport.js" />
-        <option value="$PROJECT_DIR$/controller/websocket.server.controller.js" />
         <option value="$PROJECT_DIR$/users.yaml" />
         <option value="$PROJECT_DIR$/controller/plugs.controller.js" />
         <option value="$PROJECT_DIR$/controller/config.yaml" />
         <option value="$PROJECT_DIR$/plugserver.js" />
         <option value="$PROJECT_DIR$/controller/user.controller.js" />
+        <option value="$PROJECT_DIR$/controller/websocket.server.controller.js" />
       </list>
     </option>
   </component>
@@ -177,10 +175,10 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="585" />
-    <option name="y" value="93" />
+    <option name="x" value="245" />
+    <option name="y" value="23" />
     <option name="width" value="1413" />
-    <option name="height" value="860" />
+    <option name="height" value="877" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -205,7 +203,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -268,6 +265,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -374,7 +372,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="585" y="93" width="1413" height="860" extended-state="0" />
+    <frame x="245" y="23" width="1413" height="877" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2145749" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -383,7 +381,7 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2744253" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3012987" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24155845" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24142313" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928476" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -525,7 +523,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -554,7 +551,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="112" column="0" selection-start-line="112" selection-start-column="0" selection-end-line="112" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -588,7 +584,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -668,7 +663,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -676,9 +670,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="14" column="22" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="22" />
-          <folding>
-            <element signature="n#!!doc;n#Plug#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -703,7 +694,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="532" column="19" selection-start-line="532" selection-start-column="19" selection-end-line="532" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -711,7 +701,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -719,7 +708,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="111" column="2" selection-start-line="111" selection-start-column="2" selection-end-line="111" selection-end-column="2" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -727,7 +715,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -743,7 +730,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="449" column="0" selection-start-line="449" selection-start-column="0" selection-end-line="449" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -751,7 +737,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="12.949368">
           <caret line="341" column="4" selection-start-line="341" selection-start-column="4" selection-end-line="341" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -759,7 +744,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="78" column="13" selection-start-line="78" selection-start-column="13" selection-end-line="78" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -767,7 +751,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33269963">
           <caret line="665" column="0" selection-start-line="665" selection-start-column="0" selection-end-line="665" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -775,7 +758,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-12.777778">
           <caret line="23" column="24" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -799,7 +781,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33189654">
           <caret line="81" column="0" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -815,13 +796,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="3" column="33" selection-start-line="3" selection-start-column="33" selection-end-line="3" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/passport/lib/authenticator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.222222">
+        <state vertical-scroll-proportion="0.0">
           <caret line="166" column="30" selection-start-line="166" selection-start-column="30" selection-end-line="166" selection-end-column="30" />
           <folding />
         </state>
@@ -831,7 +811,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.51894563">
           <caret line="21" column="22" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -869,16 +848,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controller/websocket.server.controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="8" selection-start-line="25" selection-start-column="8" selection-end-line="25" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#49#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/users.yaml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -899,9 +868,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/plugserver.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.48741007">
+        <state vertical-scroll-proportion="0.0">
           <caret line="67" column="91" selection-start-line="67" selection-start-column="91" selection-end-line="67" selection-end-column="91" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controller/websocket.server.controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.11857708">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#49#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

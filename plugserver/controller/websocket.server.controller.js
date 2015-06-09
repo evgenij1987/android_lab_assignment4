@@ -43,7 +43,7 @@ WebSocketServerController.prototype.listen = function (port) {
 
             });
         } else { //reject if not authenticated connection
-            ws.send("connection not authenticated");
+            ws.send(NOT_AUTHENTICATED);
             ws.close();
         }
 
